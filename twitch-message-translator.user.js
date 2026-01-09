@@ -1,9 +1,8 @@
 // ==UserScript==
 // @name         Twitch Chat Message Translator
-// @author       Masuta
 // @namespace    http://tampermonkey.net/
-// @version      1.0
-// @description  Translate Twitch / 7TV chat messages (message text only)
+// @version      1.1
+// @description  Translate Twitch / 7TV chat messages
 // @match        https://www.twitch.tv/*
 // @grant        GM_xmlhttpRequest
 // @connect      translate.googleapis.com
@@ -45,6 +44,7 @@
     ui.style.display = "none";
     ui.style.color = "#fff";
     ui.style.fontSize = "14px";
+    ui.style.cursor = "move"; // indicates draggable
 
     const select = document.createElement("select");
     select.style.width = "100%";
@@ -69,7 +69,6 @@
     // Translation function
     function translateText(text, targetLang, callback) {
         const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLang}&dt=t&q=${encodeURIComponent(text)}`;
-
         GM_xmlhttpRequest({
             method: "GET",
             url,
@@ -84,24 +83,20 @@
         });
     }
 
-    // RIGHT CLICK detection (most reliable)
+    // RIGHT CLICK detection
     document.addEventListener("contextmenu", (e) => {
         const body = e.target.closest(".seventv-chat-message-body")
             || e.target.closest('[class*="chat-line"]');
-
         if (!body) return;
 
         e.preventDefault();
 
-        // Extract message text
         const tokens = body.querySelectorAll(".text-token");
         extractedText = Array.from(tokens).map(t => t.textContent).join("");
-
         if (!extractedText.trim()) return;
 
         selectedMessage = body;
 
-        // Visual feedback
         document.querySelectorAll(".tm-selected").forEach(el => el.classList.remove("tm-selected"));
         body.classList.add("tm-selected");
         body.style.outline = "2px solid #9146FF";
@@ -126,6 +121,31 @@
             }
             div.textContent = `🗨️ ${translated}`;
         });
+    });
+
+    // DRAG FUNCTIONALITY
+    let isDragging = false, offsetX = 0, offsetY = 0;
+
+    ui.addEventListener("mousedown", (e) => {
+        isDragging = true;
+        offsetX = e.clientX - ui.getBoundingClientRect().left;
+        offsetY = e.clientY - ui.getBoundingClientRect().top;
+        ui.style.transition = "none"; // remove smooth animation during drag
+    });
+
+    document.addEventListener("mousemove", (e) => {
+        if (!isDragging) return;
+        ui.style.left = `${e.clientX - offsetX}px`;
+        ui.style.top = `${e.clientY - offsetY}px`;
+        ui.style.bottom = "auto"; // override bottom
+        ui.style.right = "auto"; // override right
+    });
+
+    document.addEventListener("mouseup", () => {
+        if (isDragging) {
+            isDragging = false;
+            ui.style.transition = ""; // restore transition if needed
+        }
     });
 
 })();
