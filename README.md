@@ -14,7 +14,7 @@ A Tampermonkey / Greasemonkey userscript for Twitch that allows you to translate
 - Right-click on a message to select it for translation.  
 - Inline display of the translated text below the original message.  
 - Visual feedback when a message is selected (highlighted outline).  
-- Supports multiple languages: English, French, Japanese, Korean, Spanish, German.  
+- Supports multiple languages.
 - Simple, unobtrusive UI panel fixed at the bottom-right of the screen.  
 
 ---
