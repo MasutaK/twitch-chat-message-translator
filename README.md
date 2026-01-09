@@ -52,6 +52,7 @@ A Tampermonkey / Greasemonkey userscript for Twitch that allows you to translate
 | 한국어        | ko   |
 | Русский       | ru   |
 | 中文        | zh   |
+| العربية        | ar   |
 
 ---
 
