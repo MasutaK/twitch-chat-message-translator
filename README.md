@@ -41,14 +41,17 @@ A Tampermonkey / Greasemonkey userscript for Twitch that allows you to translate
 
 ## Supported Languages
 
-| Language  | Code |
-|-----------|------|
-| Français  | fr   |
-| English   | en   |
-| 日本語      | ja   |
-| 한국어      | ko   |
-| Español   | es   |
-| Deutsch   | de   |
+| Language      | Code |
+|---------------|------|
+| English       | en   |
+| Français      | fr   |
+| Español       | es   |
+| Deutsch       | de   |
+| Português     | pt   |
+| 日本語        | ja   |
+| 한국어        | ko   |
+| Русский       | ru   |
+| 中文        | zh   |
 
 ---
 
